@@ -27,3 +27,18 @@ Animated.timing(value, {
   <View />
 </Animated.View>
 ```
+
+#### How Animation actually played on the screen?
+- Computations by JS thread, Animations by Native OS which involved following steps
+  - Compute
+  - Serialize
+  - Transfer it over the bridge to host OS
+  - Deserialize
+  - Run the Frame instead of Animations to avoid frame loss as we are computing lot of things in JS thread
+- Everrything done by Native OS
+  - Before animation starts -> Serialize the whole animations thing
+  - Native OS would Deserialize it
+  - Run
+    - No more over the bridge transfers
+    - JS thread is now free for other computations
+    - Smoother animations
